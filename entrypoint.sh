@@ -1,15 +1,16 @@
 #! /bin/bash
-set -e
+set -e -o pipefail
 
 DB="$1"
+ARGS="${@:2}"
 
 mc config host add mongodb "$MINIO_SERVER" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" "$MINIO_API_VERSION" > /dev/null
 
 ARCHIVE="${MINIO_BUCKET}/${DB}-$(date $DATE_FORMAT).archive"
 
 echo "Dumping $DB to $ARCHIVE"
-echo "> mongodump ${@:2} -d $DB"
+echo "> mongodump $ARGS -d $DB"
 
-mongodump "${@:2}" -d "$DB" --archive | mc pipe "mongodb/$ARCHIVE" || mc rm "mongodb/$ARCHIVE"
+mongodump $ARGS -d "$DB" --archive | mc pipe "mongodb/$ARCHIVE" || { echo "Backup failed"; mc rm "mongodb/$ARCHIVE"; exit 1; }
 
 echo "Backup complete"
