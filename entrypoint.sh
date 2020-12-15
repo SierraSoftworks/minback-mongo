@@ -12,7 +12,7 @@ echo "Dumping $DB to $ARCHIVE"
 echo "> mongodump $ARGS -d $DB"
 
 if [ "${ENCRYPTION_KEY}"];
-then mongodump $ARGS -d "$DB" --archive | openssl enc -aes-256-cbc -e -k "${ARCHIVE_KEY}"  | mc pipe "mongodb/$ARCHIVE" || { echo "Backup failed"; mc rm "mongodb/$ARCHIVE"; exit 1; }
+then mongodump $ARGS -d "$DB" --archive | openssl enc -aes-256-cbc -e -k "${ENCRYPTION_KEY}"  | mc pipe "mongodb/$ARCHIVE" || { echo "Backup failed"; mc rm "mongodb/$ARCHIVE"; exit 1; }
 else mongodump $ARGS -d "$DB" --archive | mc pipe "mongodb/$ARCHIVE" || { echo "Backup failed"; mc rm "mongodb/$ARCHIVE"; exit 1; }
 fi
     
