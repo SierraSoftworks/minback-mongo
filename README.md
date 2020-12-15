@@ -9,6 +9,7 @@ to maintain a frequent backup of your critical data with minimal fuss.
 * Dumps a single MongoDB database to an S3 bucket
 * Lightweight and short lived
 * Simple and readable implementation
+* Optional encryption for archive file
 
 ## Example
 ```sh
