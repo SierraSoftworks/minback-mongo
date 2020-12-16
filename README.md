@@ -9,6 +9,7 @@ to maintain a frequent backup of your critical data with minimal fuss.
 * Dumps a single MongoDB database to an S3 bucket
 * Lightweight and short lived
 * Simple and readable implementation
+* Optional encryption for archive file
 
 ## Example
 ```sh
@@ -47,6 +48,9 @@ The Secret Key used to connect to your Minio server.
 
 #### `MINIO_BUCKET=backups`
 The Minio bucket you wish to store your backup in.
+
+#### `ENCRYPTION_KEY`
+(Optional) The OpenSSL symmetric key to protect the archive with.  Should be sufficiently long to prevent dictionary based attacks.
 
 ### `DATE_FORMAT=+%Y-%m-%d`
 The date format you would like to use when naming your backup files. Files are named `$DB-$DATE.archive`.
